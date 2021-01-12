@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'eksamesemester'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5f03e4cc064c4dbdbb995e6220f7eef1 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7d45a45dd34e4bf9b252c3d878907c16 }}
         package: ${{env.DOTNET_ROOT}}/myapp 
