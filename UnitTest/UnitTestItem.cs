@@ -17,7 +17,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void Test8ItemsInList()
         {
             var list = new List<Item>(_unitTestGenerateList.Get());
             Assert.AreEqual(8, list.Count);
