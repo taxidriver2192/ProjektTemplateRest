@@ -24,14 +24,14 @@ namespace RestTemplate.Controllers
             new Item(8, "iPhoen 6S+", false, 1500)
         };
 
-        // GET: api/<ItemController>
+        // GET: api/<ItemsController>
         [HttpGet]
         [EnableCors("CorsApi")]
         public IEnumerable<Item> Get()
         {
             return Data;
         }
-        // GET api/<ItemController>/5
+        // GET api/<ItemsController>/5
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(200)]
@@ -43,7 +43,7 @@ namespace RestTemplate.Controllers
         }
 
 
-        // GET: api/<ItemController>
+        // GET: api/<ItemsController>
         [HttpGet]
         [Route("Search")]
         public IEnumerable<Item> Get([FromQuery] QueryItems query)
@@ -70,14 +70,14 @@ namespace RestTemplate.Controllers
             return tmpList2;
         }
 
-        // POST api/<ItemController>
+        // POST api/<ItemsController>
         [HttpPost]
         public void Post([FromBody] Item value)
         {
             Data.Add(value);
         }
 
-        // PUT api/<ItemController>/5
+        // PUT api/<ItemsController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Item value)
         {
@@ -92,7 +92,7 @@ namespace RestTemplate.Controllers
         }
 
 
-        // DELETE api/<ItemController>/5
+        // DELETE api/<ItemsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

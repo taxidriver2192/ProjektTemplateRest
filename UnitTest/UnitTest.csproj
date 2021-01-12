@@ -6,8 +6,6 @@
     <IsPackable>false</IsPackable>
 
     <AssemblyName>UnitTest</AssemblyName>
-
-    <StartupObject>RestTemplate.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
