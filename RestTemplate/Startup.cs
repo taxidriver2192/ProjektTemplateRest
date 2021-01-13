@@ -26,7 +26,7 @@ namespace RestTemplate
                 options.AddPolicy("AnotherPolicy",
                     builder =>
                     {
-                        builder.WithOrigins("https://exsametestapp.azurewebsites.net")
+                        builder.AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
