@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,14 +22,8 @@ namespace RestTemplate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            services.AddCors(
-                option =>
-                {
-                    option.AddPolicy("CorsApi",
-                        builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("GET", "PUT"));
-                }
-            );
+            services.AddCors();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSwaggerGen(
                 c => c.SwaggerDoc("v1", new OpenApiInfo
@@ -50,7 +45,9 @@ namespace RestTemplate
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseRouting();
-            app.UseCors("CorsApi");
+            app.UseCors(
+                options => options.WithOrigins("https://exsametestapp.azurewebsites.net/").AllowAnyMethod()
+            );
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             app.UseSwagger();

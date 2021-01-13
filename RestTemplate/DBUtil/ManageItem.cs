@@ -12,21 +12,24 @@ namespace RestTemplate.DBUtil
         private const string GetAllItem = "select * from Item";
         public IEnumerable<Item> Get()
         {
-            var list = new List<Item>();
+            var items = new List<Item>();
             using (var conn = new SqlConnection(ConnectionString))
             using (var cmd = new SqlCommand(GetAllItem, conn))
             {
                 conn.Open();
+                Console.WriteLine(conn);
                 var reader = cmd.ExecuteReader();
+                Console.WriteLine(reader);
                 while (reader.Read())
                 {
                     var item = ReadNextItem(reader);
-                    list.Add(item);
+                    items.Add(item);
+                    Console.WriteLine(item);
                 }
-
                 reader.Close();
             }
-            return list;
+            Console.WriteLine(items);
+            return items;
         }
         private const string GetOneItem = "select * from Item where id = @id";
         public Item GetOneById(int id)
