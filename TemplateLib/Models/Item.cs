@@ -4,10 +4,7 @@ namespace TemplateLib.Models
 {
     public class Item
     {
-        private int _id;
-        private string _name;
-        private bool _sold;
-        private int _price;
+        private readonly int _id;
 
         public Item()
         {
@@ -16,34 +13,21 @@ namespace TemplateLib.Models
         public Item(int id, string name, bool sold, int price)
         {
             _id = id;
-            _name = name;
-            _sold = sold;
-            _price = price;
+            Name = name;
+            Sold = sold;
+            Price = price;
         }
 
         public int Id
         {
-            get => _id;
-            set => _id = value;
+            get; set;
         }
 
-        public string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
+        public string Name { get; set; }
 
-        public bool Sold
-        {
-            get => _sold;
-            set => _sold = value;
-        }
+        public bool Sold { get; set; }
 
-        public int Price
-        {
-            get => _price;
-            set => _price = value;
-        }
+        public int Price { get; set; }
 
         public override string ToString()
         {

@@ -8,12 +8,12 @@ namespace UnitTest
     [TestClass]
     public class UnitTest
     {
-        private ItemsController _unitTestGenerateList;
+        private ItemController _unitTestGenerateList;
 
         [TestInitialize]
         public void BeforeEachTest()
         {
-            _unitTestGenerateList = new ItemsController();
+            _unitTestGenerateList = new ItemController();
         }
 
         [TestMethod]

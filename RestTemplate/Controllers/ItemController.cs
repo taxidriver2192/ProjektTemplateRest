@@ -10,7 +10,7 @@ namespace RestTemplate.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemsController : ControllerBase
+    public class ItemController : ControllerBase
     {
         private readonly ManageItem _data = new ManageItem();
         // NO Database local data
@@ -27,14 +27,14 @@ namespace RestTemplate.Controllers
         //    new Item(8, "iPhoen 6S+", false, 1500)
         //};
 
-        // GET: api/<ItemsController>
+        // GET: api/<ItemController>
         [HttpGet]
-        [EnableCors("CorsApi")]
+        [EnableCors("AnotherPolicy")]
         public IEnumerable<Item> Get()
         {
             return _data.Get();
         }
-        // GET api/<ItemsController>/5
+        // GET api/<ItemController>/5
         [HttpGet]
         [Route("{id}")]
         public Item Get(int id)
@@ -42,21 +42,21 @@ namespace RestTemplate.Controllers
             return _data.GetOneById(id);
         }
 
-        // POST api/<ItemsController>
+        // POST api/<ItemController>
         [HttpPost]
         public void Post([FromBody] Item value)
         {
             _data.AddItem(value);
         }
 
-        // PUT api/<ItemsController>/5
+        // PUT api/<ItemController>/5
         [HttpPut("{id}")]
         public bool Put(int id, [FromBody] Item value)
         {
             return _data.UpdateItem(id, value);
         }
 
-        // DELETE api/<ItemsController>/5
+        // DELETE api/<ItemController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

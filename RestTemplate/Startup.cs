@@ -21,14 +21,16 @@ namespace RestTemplate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            services.AddCors(
-                option =>
-                {
-                    option.AddPolicy("CorsApi",
-                        builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("GET", "PUT"));
-                }
-            );
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AnotherPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("https://exsametestapp.azurewebsites.net")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
             services.AddSwaggerGen(
                 c => c.SwaggerDoc("v1", new OpenApiInfo
@@ -50,7 +52,9 @@ namespace RestTemplate
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseRouting();
-            app.UseCors("CorsApi");
+            
+             app.UseCors();
+            
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             app.UseSwagger();

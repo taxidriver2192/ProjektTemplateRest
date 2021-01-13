@@ -8,7 +8,7 @@ namespace RestTemplate.DBUtil
     public class ManageItem
     {
         private const string ConnectionString =
-            @"Data Source=Server=tcp:server-eksamesemester.database.windows.net,1433;Initial Catalog=db-eksamesemester;Persist Security Info=False;User ID=tina9647;Password=Zeaws2EJ!2;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            @"Server=tcp:server-eksamesemester.database.windows.net,1433;Initial Catalog=db-eksamesemester;Persist Security Info=False;User ID=tina9647;Password=Zeaws2EJ!2;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private const string GetAllItem = "select * from Item";
         public IEnumerable<Item> Get()
         {
@@ -17,45 +17,46 @@ namespace RestTemplate.DBUtil
             using (var cmd = new SqlCommand(GetAllItem, conn))
             {
                 conn.Open();
-                Console.WriteLine(conn);
                 var reader = cmd.ExecuteReader();
-                Console.WriteLine(reader);
                 while (reader.Read())
                 {
                     var item = ReadNextItem(reader);
                     items.Add(item);
-                    Console.WriteLine(item);
                 }
                 reader.Close();
             }
-            Console.WriteLine(items);
             return items;
         }
-        private const string GetOneItem = "select * from Item where id = @id";
+        private const string GetOneItem = "select * from Item where Id = @id";
         public Item GetOneById(int id)
         {
             Item item = new Item();
-            using SqlConnection conn = new SqlConnection(ConnectionString);
-            conn.Open();
-
-            using SqlCommand cmd = new SqlCommand(GetOneItem, conn);
-            cmd.Parameters.AddWithValue("@id", id);
-            SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
-                item = ReadNextItem(reader);
-            }
+                conn.Open();
 
+                using (SqlCommand cmd = new SqlCommand(GetOneItem, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        item = ReadNextItem(reader);
+                    }
+
+                }
+
+            }
             return item;
         }
-        private const string SqlAddItem = "insert into Item (Id, Name, Sold, Price) values (@Id, @Name, @Sold, @Price)";
+
+        private const string SqlAddItem = "insert into Item (Name, Sold, Price) values (@Name, @Sold, @Price)";
         public bool AddItem(Item item)
         {
             using var conn = new SqlConnection(ConnectionString);
             conn.Open();
 
             using var cmd = new SqlCommand(SqlAddItem, conn);
-            cmd.Parameters.AddWithValue("@Id", item.Id);
             cmd.Parameters.AddWithValue("@Name", item.Name);
             cmd.Parameters.AddWithValue("@Sold", item.Sold);
             cmd.Parameters.AddWithValue("@Price", item.Price);
@@ -72,7 +73,7 @@ namespace RestTemplate.DBUtil
 
             return OK;
         }
-        private const string SqlUpdateItem = "UPDATE Item SET Id = @Id, Name = @Name, Sold = @Sold, Price = @Price WHERE Id = @Id";
+        private const string SqlUpdateItem = "UPDATE Item SET Name = @Name, Sold = @Sold, Price = @Price WHERE Id = @Id";
         public bool UpdateItem(int id, Item item)
         {
             if (id <= 0) throw new ArgumentOutOfRangeException(nameof(id));
