@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using TemplateLib.Models;
 
@@ -7,20 +8,19 @@ namespace RestTemplate.DBUtil
     public class ManageItem
     {
         private const string ConnectionString =
-            @"Data Source=(localdb)\ProjectsV13;Initial Catalog=ClassDemo;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private const string GetAll = "select * from Item";
+            @"Data Source=Server=tcp:server-eksamesemester.database.windows.net,1433;Initial Catalog=db-eksamesemester;Persist Security Info=False;User ID=tina9647;Password=Zeaws2EJ!2;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private const string GetAllItem = "select * from Item";
         public IEnumerable<Item> Get()
         {
-            List<Item> list;
-            list = new List<Item>();
+            var list = new List<Item>();
             using (var conn = new SqlConnection(ConnectionString))
-            using (var cmd = new SqlCommand(GetAll, conn))
+            using (var cmd = new SqlCommand(GetAllItem, conn))
             {
                 conn.Open();
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    var item = ReadNextElement(reader);
+                    var item = ReadNextItem(reader);
                     list.Add(item);
                 }
 
@@ -28,14 +28,104 @@ namespace RestTemplate.DBUtil
             }
             return list;
         }
-
-        private Item ReadNextElement(SqlDataReader reader)
+        private const string GetOneItem = "select * from Item where id = @id";
+        public Item GetOneById(int id)
         {
-            var item = new Item();
-            item.Id = reader.GetInt32(0);
-            item.Name = reader.GetString(1);
-            item.Sold = reader.GetBoolean(2);
-            item.Price = reader.GetInt32(3);
+            Item item = new Item();
+            using SqlConnection conn = new SqlConnection(ConnectionString);
+            conn.Open();
+
+            using SqlCommand cmd = new SqlCommand(GetOneItem, conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                item = ReadNextItem(reader);
+            }
+
+            return item;
+        }
+        private const string SqlAddItem = "insert into Item (Id, Name, Sold, Price) values (@Id, @Name, @Sold, @Price)";
+        public bool AddItem(Item item)
+        {
+            using var conn = new SqlConnection(ConnectionString);
+            conn.Open();
+
+            using var cmd = new SqlCommand(SqlAddItem, conn);
+            cmd.Parameters.AddWithValue("@Id", item.Id);
+            cmd.Parameters.AddWithValue("@Name", item.Name);
+            cmd.Parameters.AddWithValue("@Sold", item.Sold);
+            cmd.Parameters.AddWithValue("@Price", item.Price);
+            bool OK;
+            try
+            {
+                var rows = cmd.ExecuteNonQuery();
+                OK = rows == 1;
+            }
+            catch (Exception)
+            {
+                OK = false;
+            }
+
+            return OK;
+        }
+        private const string SqlUpdateItem = "UPDATE Item SET Id = @Id, Name = @Name, Sold = @Sold, Price = @Price WHERE Id = @Id";
+        public bool UpdateItem(int id, Item item)
+        {
+            if (id <= 0) throw new ArgumentOutOfRangeException(nameof(id));
+            bool OK = true;
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            using (SqlCommand cmd = new SqlCommand(SqlUpdateItem, conn))
+            {
+                conn.Open();
+                {
+                    cmd.Parameters.AddWithValue("@Id", item.Id);
+                    cmd.Parameters.AddWithValue("@Name", item.Name);
+                    cmd.Parameters.AddWithValue("@Sold", item.Sold);
+                    cmd.Parameters.AddWithValue("@Price", item.Price);
+                    
+                    try
+                    {
+                        int rows = cmd.ExecuteNonQuery();
+                        OK = rows == 1;
+                    }
+                    catch
+                    {
+                        OK = false;
+                    }
+                }
+
+            }
+            return OK;
+        }
+
+        private const string SqlDeleteItem = "DELETE FROM Item WHERE Id = @Id";
+        public Item DeleteUser(int id)
+        {
+            Item item = GetOneById(id);
+            if (item.Id != -1)
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(SqlDeleteItem, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", id);
+                        int rows = cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            return item;
+        }
+        private Item ReadNextItem(SqlDataReader reader)
+        {
+            var item = new Item
+            {
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1),
+                Sold = reader.GetBoolean(2),
+                Price = reader.GetInt32(3)
+            };
             return item;
         }
     }
