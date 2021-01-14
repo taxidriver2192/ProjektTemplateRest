@@ -127,7 +127,7 @@ namespace RestTemplate.DBUtil
             {
                 Id = reader.GetInt32(0),
                 Name = reader.GetString(1),
-                InStock = reader.GetBoolean(2),
+                InStock = reader.GetInt32(2),
                 LowLevel = reader.GetInt32(3)
             };
             return item;
