@@ -12,7 +12,7 @@ namespace RestTemplate.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly ManageItem _data = new ManageItem();
+        private readonly ManageFood _data = new ManageFood();
         // NO Database local data
         //
         //private static readonly List<Food> Data = new List<Food>
@@ -39,28 +39,28 @@ namespace RestTemplate.Controllers
         [Route("{id}")]
         public Food Get(int id)
         {
-            return _data.GetOneById(id);
+            return _data.GetFoodById(id);
         }
 
         // POST api/<ItemController>
         [HttpPost]
         public void Post([FromBody] Food value)
         {
-            _data.AddItem(value);
+            _data.AddFood(value);
         }
 
         // PUT api/<ItemController>/5
         [HttpPut("{id}")]
         public bool Put(int id, [FromBody] Food value)
         {
-            return _data.UpdateItem(id, value);
+            return _data.UpdateFood(id, value);
         }
 
         // DELETE api/<ItemController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _data.DeleteUser(id);
+            _data.DeleteFood(id);
         }
     }
 }

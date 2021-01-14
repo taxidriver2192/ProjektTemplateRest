@@ -5,7 +5,7 @@ using TemplateLib.Models;
 
 namespace RestTemplate.DBUtil
 {
-    public class ManageItem
+    public class ManageFood
     {
         private const string ConnectionString =
             @"Server=tcp:server-eksamesemester.database.windows.net,1433;Initial Catalog=db-eksamesemester;Persist Security Info=False;User ID=tina9647;Password=Zeaws2EJ!2;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
@@ -28,7 +28,7 @@ namespace RestTemplate.DBUtil
             return items;
         }
         private const string GetOneItem = "select * from Food where Id = @id";
-        public Food GetOneById(int id)
+        public Food GetFoodById(int id)
         {
             Food food = new Food();
             using (SqlConnection conn = new SqlConnection(ConnectionString))
@@ -51,7 +51,7 @@ namespace RestTemplate.DBUtil
         }
 
         private const string SqlAddItem = "insert into Food (Name, InStock, LowLevel) values (@Name, @InStock, @LowLevel)";
-        public bool AddItem(Food food)
+        public bool AddFood(Food food)
         {
             using var conn = new SqlConnection(ConnectionString);
             conn.Open();
@@ -74,7 +74,7 @@ namespace RestTemplate.DBUtil
             return OK;
         }
         private const string SqlUpdateItem = "UPDATE Food SET Name = @Name, InStock = @InStock, LowLevel = @LowLevel WHERE Id = @Id";
-        public bool UpdateItem(int id, Food food)
+        public bool UpdateFood(int id, Food food)
         {
             if (id <= 0) throw new ArgumentOutOfRangeException(nameof(id));
             bool OK = true;
@@ -104,9 +104,9 @@ namespace RestTemplate.DBUtil
         }
 
         private const string SqlDeleteItem = "DELETE FROM Food WHERE Id = @Id";
-        public Food DeleteUser(int id)
+        public Food DeleteFood(int id)
         {
-            Food food = GetOneById(id);
+            Food food = GetFoodById(id);
             if (food.Id != -1)
             {
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
