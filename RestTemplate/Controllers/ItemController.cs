@@ -15,43 +15,43 @@ namespace RestTemplate.Controllers
         private readonly ManageItem _data = new ManageItem();
         // NO Database local data
         //
-        //private static readonly List<Item> Data = new List<Item>
+        //private static readonly List<Food> Data = new List<Food>
         //{
-        //    new Item(1, "iPhoen 4", false, 345),
-        //    new Item(2, "iPhoen 4S", true, 400),
-        //    new Item(3, "iPhoen 5", false, 550),
-        //    new Item(4, "iPhoen 5S", false, 600),
-        //    new Item(5, "iPhoen SE", true, 850),
-        //    new Item(6, "iPhoen 6", false, 1100),
-        //    new Item(7, "iPhoen 6S", true, 1350),
-        //    new Item(8, "iPhoen 6S+", false, 1500)
+        //    new Food(1, "iPhoen 4", false, 345),
+        //    new Food(2, "iPhoen 4S", true, 400),
+        //    new Food(3, "iPhoen 5", false, 550),
+        //    new Food(4, "iPhoen 5S", false, 600),
+        //    new Food(5, "iPhoen SE", true, 850),
+        //    new Food(6, "iPhoen 6", false, 1100),
+        //    new Food(7, "iPhoen 6S", true, 1350),
+        //    new Food(8, "iPhoen 6S+", false, 1500)
         //};
 
         // GET: api/<ItemController>
         [HttpGet]
         [EnableCors("AnotherPolicy")]
-        public IEnumerable<Item> Get()
+        public IEnumerable<Food> Get()
         {
             return _data.Get();
         }
         // GET api/<ItemController>/5
         [HttpGet]
         [Route("{id}")]
-        public Item Get(int id)
+        public Food Get(int id)
         {
             return _data.GetOneById(id);
         }
 
         // POST api/<ItemController>
         [HttpPost]
-        public void Post([FromBody] Item value)
+        public void Post([FromBody] Food value)
         {
             _data.AddItem(value);
         }
 
         // PUT api/<ItemController>/5
         [HttpPut("{id}")]
-        public bool Put(int id, [FromBody] Item value)
+        public bool Put(int id, [FromBody] Food value)
         {
             return _data.UpdateItem(id, value);
         }

@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FoodLib\FoodLib.csproj" />
     <ProjectReference Include="..\RestTemplate\RestTemplate.csproj" />
-    <ProjectReference Include="..\TemplateLib\TemplateLib.csproj" />
   </ItemGroup>
 
 </Project>

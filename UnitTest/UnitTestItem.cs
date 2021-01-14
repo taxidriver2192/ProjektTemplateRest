@@ -19,7 +19,7 @@ namespace UnitTest
         [TestMethod]
         public void Test8ItemsInList()
         {
-            var list = new List<Item>(_unitTestGenerateList.Get());
+            var list = new List<Food>(_unitTestGenerateList.Get());
             Assert.AreEqual(8, list.Count);
         }
     }

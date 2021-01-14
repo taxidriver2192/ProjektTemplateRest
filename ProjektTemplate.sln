@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestTemplate", "RestTemplate\RestTemplate.csproj", "{50A6ABCA-7F04-4299-A3DC-09DEDAE40D59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateLib", "TemplateLib\TemplateLib.csproj", "{F4BE7F38-996B-4CCD-81BF-3B9BF2E7FF04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodLib", "FoodLib\FoodLib.csproj", "{F4BE7F38-996B-4CCD-81BF-3B9BF2E7FF04}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateConsumer", "TemplateConsumer\TemplateConsumer.csproj", "{368BEFA7-4116-4A99-8D09-20399D207EDB}"
 EndProject
