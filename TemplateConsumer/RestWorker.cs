@@ -19,48 +19,48 @@ namespace TemplateConsumer
 
         public async void Start()
         {
-            // Starting test on Food
+            // Starting test on Item
             PrintHeader("Get all items");
             var allItems = await GetAllItems();
             foreach (var item in allItems) Console.WriteLine(item);
-            PrintHeader("Get Food Id 18");
+            PrintHeader("Get Item Id 18");
             try
             {
                 var testItem1 = await GetOneItem(18);
-                Console.WriteLine("food= " + testItem1);
+                Console.WriteLine("item= " + testItem1);
             }
             catch (KeyNotFoundException notFoundException)
             {
                 Console.WriteLine(notFoundException.Message);
             }
 
-            PrintHeader("Get Food id 2");
+            PrintHeader("Get Item id 2");
             try
             {
                 var testItem2 = await GetOneItem(2);
-                Console.WriteLine("food= " + testItem2);
+                Console.WriteLine("item= " + testItem2);
             }
             catch (KeyNotFoundException notFoundException)
             {
                 Console.WriteLine(notFoundException.Message);
             }
 
-            // Create Food Id 1337
-            PrintHeader("Create Food Id 1337");
-            var nyItemTemplate = new Food(1337, "Just one food", false, 55);
+            // Create Item Id 1337
+            PrintHeader("Create Item Id 1337");
+            var nyItemTemplate = new Item(1337, "Just one item", false, 55);
             await CreateNewItem(nyItemTemplate);
 
-            // Update Food Id 1337
+            // Update Item Id 1337
             allItems = await GetAllItems();
             foreach (var item in allItems) Console.WriteLine(item);
-            PrintHeader("Update Food Id 1337");
+            PrintHeader("Update Item Id 1337");
             nyItemTemplate.Name = "NewItemRandomName";
             await UpdateItem(nyItemTemplate);
 
-            // Deleting Food Id 1337
+            // Deleting Item Id 1337
             allItems = await GetAllItems();
             foreach (var item in allItems) Console.WriteLine(item);
-            PrintHeader("Delete Food Id 1337");
+            PrintHeader("Delete Item Id 1337");
             await DeletingItem(1337);
 
             // Printing all Items
@@ -76,17 +76,17 @@ namespace TemplateConsumer
             Console.WriteLine("=========================");
         }
 
-        public async Task<List<Food>> GetAllItems()
+        public async Task<List<Item>> GetAllItems()
         {
             using (var client = new HttpClient())
             {
                 var json = await client.GetStringAsync(Url);
-                var items = JsonConvert.DeserializeObject<List<Food>>(json);
+                var items = JsonConvert.DeserializeObject<List<Item>>(json);
                 return items;
             }
         }
 
-        private async Task<Food> GetOneItem(int id)
+        private async Task<Item> GetOneItem(int id)
         {
             using (var client = new HttpClient())
             {
@@ -95,7 +95,7 @@ namespace TemplateConsumer
                 if (resp.IsSuccessStatusCode)
                 {
                     var json = await resp.Content.ReadAsStringAsync();
-                    var itemTemplate = JsonConvert.DeserializeObject<Food>(json);
+                    var itemTemplate = JsonConvert.DeserializeObject<Item>(json);
                     return itemTemplate;
                 }
 
@@ -104,36 +104,36 @@ namespace TemplateConsumer
             }
         }
 
-        private async Task CreateNewItem(Food food)
+        private async Task CreateNewItem(Item item)
         {
             using (var client = new HttpClient())
             {
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(food),
+                    JsonConvert.SerializeObject(item),
                     Encoding.UTF8,
                     "application/json");
 
                 var resp = await client.PostAsync(Url, content);
                 if (resp.IsSuccessStatusCode) return;
 
-                throw new ArgumentException("Error on creating a new Food.");
+                throw new ArgumentException("Error on creating a new Item.");
             }
         }
 
 
-        private async Task UpdateItem(Food food)
+        private async Task UpdateItem(Item item)
         {
             using (var client = new HttpClient())
             {
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(food),
+                    JsonConvert.SerializeObject(item),
                     Encoding.UTF8,
                     "application/json");
 
-                var resp = await client.PutAsync(Url + food.Id, content);
+                var resp = await client.PutAsync(Url + item.Id, content);
                 if (resp.IsSuccessStatusCode) return;
 
-                throw new ArgumentException("Error on updating a food.");
+                throw new ArgumentException("Error on updating a item.");
             }
         }
 
@@ -145,7 +145,7 @@ namespace TemplateConsumer
                 var resp = await client.DeleteAsync(Url + nr);
                 if (resp.IsSuccessStatusCode) return;
 
-                throw new ArgumentException("Error on deleting a food");
+                throw new ArgumentException("Error on deleting a item");
             }
         }
     }

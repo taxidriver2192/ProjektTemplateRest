@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoodLib\FoodLib.csproj" />
+    <ProjectReference Include="..\TemplateLib\TemplateLib.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,43 +15,43 @@ namespace RestTemplate.Controllers
         private readonly ManageFood _data = new ManageFood();
         // NO Database local data
         //
-        //private static readonly List<Food> Data = new List<Food>
+        //private static readonly List<Item> Data = new List<Item>
         //{
-        //    new Food(1, "iPhoen 4", false, 345),
-        //    new Food(2, "iPhoen 4S", true, 400),
-        //    new Food(3, "iPhoen 5", false, 550),
-        //    new Food(4, "iPhoen 5S", false, 600),
-        //    new Food(5, "iPhoen SE", true, 850),
-        //    new Food(6, "iPhoen 6", false, 1100),
-        //    new Food(7, "iPhoen 6S", true, 1350),
-        //    new Food(8, "iPhoen 6S+", false, 1500)
+        //    new Item(1, "iPhoen 4", false, 345),
+        //    new Item(2, "iPhoen 4S", true, 400),
+        //    new Item(3, "iPhoen 5", false, 550),
+        //    new Item(4, "iPhoen 5S", false, 600),
+        //    new Item(5, "iPhoen SE", true, 850),
+        //    new Item(6, "iPhoen 6", false, 1100),
+        //    new Item(7, "iPhoen 6S", true, 1350),
+        //    new Item(8, "iPhoen 6S+", false, 1500)
         //};
 
         // GET: api/<ItemController>
         [HttpGet]
         [EnableCors("AnotherPolicy")]
-        public IEnumerable<Food> Get()
+        public IEnumerable<Item> Get()
         {
             return _data.Get();
         }
         // GET api/<ItemController>/5
         [HttpGet]
         [Route("{id}")]
-        public Food Get(int id)
+        public Item Get(int id)
         {
             return _data.GetFoodById(id);
         }
 
         // POST api/<ItemController>
         [HttpPost]
-        public void Post([FromBody] Food value)
+        public void Post([FromBody] Item value)
         {
             _data.AddFood(value);
         }
 
         // PUT api/<ItemController>/5
         [HttpPut("{id}")]
-        public bool Put(int id, [FromBody] Food value)
+        public bool Put(int id, [FromBody] Item value)
         {
             return _data.UpdateFood(id, value);
         }
